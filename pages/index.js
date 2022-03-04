@@ -1,7 +1,23 @@
+import { motion } from "framer-motion";
 import Head from "next/head";
 import styled from "styled-components";
 
 const images = new Array(16).fill(0).map((_, i) => `image-${i + 1}`);
+const listItems = [1, 2, 3, 4, 5, 6];
+const list = {
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+  hidden: { opacity: 0 },
+};
+
+const item = {
+  visible: { opacity: 1, y: 0, transition: { duration: 1 } },
+  hidden: { opacity: 0, y: 60, transition: { duration: 1 } },
+};
 
 export default function Home() {
   return (
@@ -12,8 +28,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Title>A Superb and Extended Title</Title>
-        <Copy>
+        {/* Reveal themselves one by one with a smooth animation */}
+        <Title
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 1.5,
+            delay: 0.4,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
+        >
+          A Superb and Extended Title
+        </Title>
+        <Copy
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 1.5,
+            delay: 0.7,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
+        >
           The most powerful MacBook Pro ever is here. With the blazing-fast M1
           Pro or M1 Max chip — the first Apple silicon designed for pros — you
           get groundbreaking performance and amazing battery life. Add to that a
@@ -21,20 +56,89 @@ export default function Home() {
           a Mac notebook, and all the ports you need. The first notebook of its
           kind, this MacBook Pro is a beast.
         </Copy>
-        <Heading>Here is a simple gallery reveal</Heading>
+        <Heading
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{
+            once: false,
+            amount: "all",
+          }}
+          transition={{
+            duration: 1.5,
+            delay: 0.4,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
+        >
+          Here is a simple gallery reveal
+        </Heading>
         <Gallery>
           {images.map((image, index) => (
-            <Image src={`https://picsum.photos/seed/${index}/230`} />
+            <Image
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{
+                once: false,
+                amount: 0.9,
+                // amount?: "some" | "all" | number;
+              }}
+              transition={{
+                duration: 1.5,
+                delay: 0.4,
+                ease: [0.34, 1.56, 0.64, 1],
+              }}
+              src={`https://picsum.photos/seed/${index}/230`}
+            />
           ))}
         </Gallery>
-        <Heading>What’s that? Lists too?</Heading>
-        <List>
-          <li>A simple list item 1</li>
-          <li>A simple list item 2</li>
-          <li>A simple list item 3</li>
+        <Heading
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{
+            once: false,
+            amount: "all",
+          }}
+          transition={{
+            duration: 1.5,
+            delay: 0.4,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
+        >
+          What’s that? Lists too?
+        </Heading>
+        <List
+          initial="hidden"
+          viewport={{
+            amount: "some",
+          }}
+          whileInView="visible"
+          variants={list}
+        >
+          {listItems.map((listItem, index) => (
+            <Item
+              key={index}
+              variants={item}
+              viewport={{
+                amount: "some",
+              }}
+              whileInView="visible"
+              initial="hidden"
+            >
+              A simple list item {listItem}
+            </Item>
+          ))}
         </List>
         <Heading>And a simple recurring animation, only when in view</Heading>
-        <Emoji>
+        <Emoji
+          whileInView={{
+            rotate: 360,
+            opacity: 1,
+          }}
+          transition={{
+            repeat: Infinity,
+            repeatType: "mirror",
+            duration: 2,
+          }}
+        >
           <span role="emoji">💩</span>
         </Emoji>
       </Container>
@@ -48,16 +152,16 @@ const Container = styled.main`
   padding: 30vh 20px;
   text-align: center;
 `;
-const Title = styled.h1`
+const Title = styled(motion.h1)`
   font-size: 60px;
   font-weight: bold;
 `;
 
-const Heading = styled.h2`
+const Heading = styled(motion.h2)`
   font-size: 40px;
   font-weight: 600;
 `;
-const Copy = styled.p`
+const Copy = styled(motion.p)`
   margin-bottom: 25vh;
 `;
 const Gallery = styled.div`
@@ -66,11 +170,15 @@ const Gallery = styled.div`
   gap: 20px;
   margin-bottom: 30vh;
 `;
-const Image = styled.img``;
-const Emoji = styled.p`
+const Image = styled(motion.img)``;
+const Emoji = styled(motion.p)`
   font-size: 100px;
 `;
 
 const List = styled.ul`
   margin-bottom: 30vh;
+`;
+const Item = styled(motion.li)`
+  font-size: 22px;
+  line-height: 1.5;
 `;
