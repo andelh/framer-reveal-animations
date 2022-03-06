@@ -2,6 +2,7 @@ import Head from "next/head";
 import styled from "styled-components";
 
 const images = new Array(16).fill(0).map((_, i) => true);
+const listItems = [1, 2, 3, 4, 5, 6];
 
 export default function Home() {
   return (
@@ -32,9 +33,9 @@ export default function Home() {
         </Gallery>
         <Heading>What’s that? Lists too?</Heading>
         <List>
-          <li>A simple list item 1</li>
-          <li>A simple list item 2</li>
-          <li>A simple list item 3</li>
+          {listItems.map((item, index) => (
+            <li key={index}>A simple list item {item}</li>
+          ))}
         </List>
         <Heading>And a simple recurring animation, only when in view</Heading>
         <Emoji>
