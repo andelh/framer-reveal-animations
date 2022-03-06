@@ -1,7 +1,7 @@
 import Head from "next/head";
 import styled from "styled-components";
 
-const images = new Array(16).fill(0).map((_, i) => `image-${i + 1}`);
+const images = new Array(16).fill(0).map((_, i) => true);
 
 export default function Home() {
   return (
@@ -24,7 +24,10 @@ export default function Home() {
         <Heading>Here is a simple gallery reveal</Heading>
         <Gallery>
           {images.map((image, index) => (
-            <Image src={`https://picsum.photos/seed/${index}/230`} />
+            <Image
+              key={index}
+              src={`https://picsum.photos/seed/${index}/230`}
+            />
           ))}
         </Gallery>
         <Heading>What’s that? Lists too?</Heading>
